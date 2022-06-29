@@ -15,6 +15,7 @@ class Login extends React.Component {
     };
     this.btnMinLengtCaract = this.btnMinLengthCaract.bind(this);
     this.validateLogin = this.validateLogin.bind(this);
+    this.imputBoxValue = this.imputBoxValue.bind(this);
   }
 
   // função assicrona que abilita o botão e o estate é aterado;
@@ -30,18 +31,23 @@ class Login extends React.Component {
        isPageSearch: true,
      });
    }
-
-   // função que abilita button com 3 caracter acima
-   btnMinLengthCaract(event) {
-     const MIN_CARACTER = 2;
-     const { value } = event.target;
-     const { name } = this.state;
-     const valitade = name.length < MIN_CARACTER;
-     this.setState(() => ({
-       name: value,
-       isBottonDisable: valitade,
-     }));
+  
+   imputBoxValue(event){
+      this.setState({
+        name: event.target.value,
+      }, this.btnMinLengtCaract)
    }
+   // função que abilita button com 3 caracter acima
+   btnMinLengthCaract() {
+     const MIN_CARACTER = 3;
+     const { name } = this.state
+     if( name.length >= MIN_CARACTER){
+      this.setState({
+        isBottonDisable: false,
+     })} else { this.setState({
+       isBottonDisable: true,
+     })};
+    }
 
    render() {
      const { isBottonDisable, isLoading, isPageSearch, name } = this.state;
@@ -54,7 +60,7 @@ class Login extends React.Component {
                  data-testid="login-name-input"
                  type="text"
                  value={ name }
-                 onChange={ this.btnMinLengthCaract }
+                 onChange={ this.imputBoxValue }
                />
                <button
                  data-testid="login-submit-button"
